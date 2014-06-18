@@ -10,4 +10,5 @@
 
 @interface LLOuterSpaceTableViewController : UITableViewController
 
+@property (strong, nonatomic) NSMutableArray *planets;
 @end
