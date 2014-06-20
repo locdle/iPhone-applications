@@ -7,6 +7,8 @@
 //
 
 #import "LLOuterSpaceTableViewController.h"
+#import "AstronomicalData.h"
+#import "LLSpaceObject.h"
 
 @interface LLOuterSpaceTableViewController ()
 
@@ -32,27 +34,28 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+   
+    
+//    NSString *planet1 = @"Mercury";
+//    NSString *planet2 = @"Venus";
+//    NSString *planet3 = @"Earth";
+//    NSString *planet4 = @"Mars";
+//    NSString *planet5 = @"Jupiter";
+//    NSString *planet6 = @"Saturn";
+//    NSString *planet7 = @"Urabus";
+//    NSString *planet8 = @"Neptune";
+//    
+//    self.planets = [[NSMutableArray alloc] initWithObjects:planet1, planet2, planet3, planet4, planet5, planet6, planet7, planet8, nil];
+    
     self.planets = [[NSMutableArray alloc] init];
     
-    NSString *planet1 = @"Mercury";
-    NSString *planet2 = @"Venus";
-    NSString *planet3 = @"Earth";
-    NSString *planet4 = @"Mars";
-    NSString *planet5 = @"Jupiter";
-    NSString *planet6 = @"Saturn";
-    NSString *planet7 = @"Urabus";
-    NSString *planet8 = @"Neptune";
-    
-    [self.planets addObject:planet1];
-    [self.planets addObject:planet2];
-    [self.planets addObject:planet3];
-    [self.planets addObject:planet4];
-    [self.planets addObject:planet5];
-    [self.planets addObject:planet6];
-    [self.planets addObject:planet7];
-    [self.planets addObject:planet8];
-    
-    
+    for (NSMutableDictionary *planetData in [AstronomicalData allKnownPlanets])
+    {
+        NSString *imageName = [NSString stringWithFormat:@"%@.jpg", planetData[PLANET_NAME]];
+        LLSpaceObject *planet = [[LLSpaceObject alloc] initWithData:planetData andImage:[UIImage imageNamed:imageName]];
+        [self.planets addObject:planet];
+    }
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -85,14 +88,14 @@
                             forIndexPath:indexPath];
     
     // Configure the cell...
-    cell.textLabel.text = [self.planets objectAtIndex:indexPath.row];
+    LLSpaceObject *planet = [self.planets objectAtIndex:indexPath.row];
+    cell.textLabel.text = planet.name;
+    cell.detailTextLabel.text = planet.nickname;
+    cell.imageView.image = planet.spaceImage;
     
-    if (indexPath.section ==0) {
-        cell.backgroundColor = [UIColor redColor];
-    }
-    else{
-        cell.backgroundColor = [UIColor blueColor];
-    }
+    cell.backgroundColor = [UIColor clearColor];
+    cell.textLabel.textColor = [UIColor whiteColor];
+    
     return cell;
 }
 
